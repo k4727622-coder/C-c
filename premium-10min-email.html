@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email 10 Phút Siêu Cấp - Hoạt Động 100%</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #1e293b; }
+        ::-webkit-scrollbar-thumb { background: #475569; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #64748b; }
+    </style>
+</head>
+<body class="bg-[#0f172a] text-slate-100 font-sans min-h-screen flex flex-col justify-between">
+
+    <header class="border-b border-slate-800 bg-slate-900/50 backdrop-blur-md sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <div class="bg-gradient-to-tr from-cyan-500 to-blue-600 p-2.5 rounded-xl shadow-lg shadow-cyan-500/20">
+                    <i class="fa-solid fa-bolt text-xl text-white animate-pulse"></i>
+                </div>
+                <div>
+                    <h1 class="text-lg font-bold tracking-wide bg-gradient-to-r from-white to-slate-400 bg-clip-text text-transparent">FASTMAIL Pro</h1>
+                    <p class="text-xs text-cyan-400 font-medium">Hòm thư tạm thời cao cấp</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-2 bg-slate-800/80 px-3 py-1.5 rounded-lg border border-slate-700/50 text-xs">
+                <span class="w-2 h-2 bg-emerald-500 rounded-full animate-ping"></span>
+                <span class="text-slate-300 font-medium">API Mail.tm Live</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-6xl w-full mx-auto p-4 md:p-6 flex-1 space-y-6">
+        
+        <div class="bg-gradient-to-b from-slate-900 to-slate-950 border border-slate-800 rounded-2xl p-6 shadow-2xl relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-64 h-64 bg-cyan-500/5 rounded-full blur-3xl pointer-events-none"></div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
+                
+                <div class="md:col-span-2 space-y-2">
+                    <label class="text-xs font-semibold text-slate-400 uppercase tracking-wider block">Địa chỉ Email của bạn:</label>
+                    <div class="relative flex items-center bg-slate-900 border-2 border-slate-800 focus-within:border-cyan-500/50 rounded-xl transition-all p-1">
+                        <input type="text" id="email-str" readonly value="Đang khởi tạo cấu hình bảo mật..." 
+                               class="w-full bg-transparent px-4 py-3 text-base md:text-lg font-bold text-cyan-400 tracking-wide focus:outline-none select-all truncate">
+                        <button onclick="copyMailAddress()" class="bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 text-white font-semibold px-5 py-3 rounded-lg transition active:scale-95 flex items-center gap-2 cursor-pointer shrink-0 shadow-md shadow-cyan-500/10">
+                            <i class="fa-regular fa-copy" id="copy-icon"></i> <span id="copy-text">Copy</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="bg-slate-900/60 border border-slate-800/80 rounded-xl p-4 flex flex-col items-center justify-center relative">
+                    <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">Hết hạn sau</span>
+                    <div class="text-3xl font-black text-amber-400 tracking-widest font-mono" id="countdown-clock">10:00</div>
+                    
+                    <div class="flex gap-2 w-full mt-3">
+                        <button onclick="renewTimer()" class="flex-1 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold py-2 px-3 rounded-md border border-slate-700 transition flex items-center justify-center gap-1.5 cursor-pointer">
+                            <i class="fa-solid fa-arrow-rotate-right"></i> Khôi phục 10p
+                        </button>
+                        <button onclick="generateNewMail()" class="flex-1 bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 text-xs font-bold py-2 px-3 rounded-md border border-rose-500/20 transition flex items-center justify-center gap-1.5 cursor-pointer">
+                            <i class="fa-solid fa-trash-can"></i> Đổi mail mới
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 min-h-[450px]">
+            <div class="bg-slate-950 border border-slate-800 rounded-2xl flex flex-col overflow-hidden shadow-xl lg:col-span-1">
+                <div class="p-4 bg-slate-900/40 border-b border-slate-800 flex justify-between items-center">
+                    <h3 class="font-bold text-sm tracking-wide text-slate-200 flex items-center gap-2">
+                        <i class="fa-solid fa-inbox text-cyan-400"></i> HỘP THƯ ĐẾN
+                    </h3>
+                    <div class="flex items-center gap-1.5 text-xs text-slate-400" id="sync-status">
+                        <i class="fa-solid fa-circle-notch animate-spin text-cyan-400"></i>
+                        <span>Đang đợi...</span>
+                    </div>
+                </div>
+                <div class="flex-1 overflow-y-auto divide-y divide-slate-900" id="mail-list-box">
+                    <div class="p-12 text-center text-slate-500 flex flex-col items-center justify-center h-full">
+                        <div class="w-16 h-16 bg-slate-900 rounded-full flex items-center justify-center mb-3 border border-slate-800">
+                            <i class="fa-regular fa-envelope-open text-2xl text-slate-600"></i>
+                        </div>
+                        <p class="text-sm font-medium">Chưa có thư nào đến</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-slate-950 border border-slate-800 rounded-2xl flex flex-col overflow-hidden shadow-xl lg:col-span-2">
+                <div class="p-4 bg-slate-900/40 border-b border-slate-800">
+                    <h3 class="font-bold text-sm tracking-wide text-slate-200"><i class="fa-solid fa-eye text-indigo-400 mr-2"></i>NỘI DUNG CHI TIẾT</h3>
+                </div>
+                <div class="flex-1 overflow-y-auto bg-slate-900/20 relative" id="mail-view-pane">
+                    <div class="absolute inset-0 flex flex-col items-center justify-center text-slate-500 p-6 text-center">
+                        <i class="fa-solid fa-hard-drive text-4xl mb-3 text-slate-700"></i>
+                        <p class="text-sm font-medium">Chưa chọn thư</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="border-t border-slate-800 bg-slate-950/80 py-4 text-center text-xs text-slate-500">
+        <p>&copy; 2026 FASTMAIL Pro. Sử dụng dịch vụ Mail.tm uy tín cao chống chặn tuyệt đối.</p>
+    </footer>
+
+    <script>
+        const API_URL = "https://api.mail.tm";
+        let mailToken = "", mailAddress = "", mailPassword = "", countdownSeconds = 600, clockInterval = null, apiInterval = null;
+
+        function makeRandString(length) {
+            let result = '';
+            const characters = 'abcdefghijklmnopqrstuvwxyz0123456789';
+            for (let i = 0; i < length; i++) result += characters.charAt(Math.floor(Math.random() * characters.length));
+            return result;
+        }
+
+        async function generateNewMail() {
+            try {
+                clearInterval(clockInterval); clearInterval(apiInterval);
+                document.getElementById("email-str").value = "Đang lấy domain sạch...";
+                document.getElementById("mail-list-box").innerHTML = `<div class="p-12 text-center text-slate-500 flex flex-col items-center justify-center h-full"><i class="fa-solid fa-circle-notch animate-spin text-2xl text-cyan-500 mb-2"></i><p class="text-sm">Đang đồng bộ...</p></div>`;
+                resetMailViewPane();
+
+                const domainRes = await fetch(`${API_URL}/domains`);
+                const domainData = await domainRes.json();
+                const chosenDomain = domainData['hydra:member'][0].domain;
+
+                const username = makeRandString(10); mailPassword = makeRandString(12);
+                mailAddress = `${username}@${chosenDomain}`;
+
+                await fetch(`${API_URL}/accounts`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ address: mailAddress, password: mailPassword })
+                });
+
+                const tokenRes = await fetch(`${API_URL}/token`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ address: mailAddress, password: mailPassword })
+                });
+                const tokenData = await tokenRes.json();
+                mailToken = tokenData.token;
+
+                document.getElementById("email-str").value = mailAddress;
+                countdownSeconds = 600; startCountdown(); fetchInbox();
+                apiInterval = setInterval(fetchInbox, 4000);
+            } catch (err) {
+                document.getElementById("email-str").value = "Lỗi hệ thống. Thử lại...";
+                setTimeout(generateNewMail, 3000);
+            }
+        }
+
+        async function fetchInbox() {
+            if (!mailToken) return;
+            const statusEl = document.getElementById("sync-status");
+            try {
+                const res = await fetch(`${API_URL}/messages`, { headers: { 'Authorization': `Bearer ${mailToken}` } });
+                const data = await res.json();
+                const messages = data['hydra:member'] || [];
+                statusEl.innerHTML = `<i class="fa-solid fa-cloud text-emerald-400"></i> <span class="text-emerald-400">Đã đồng bộ</span>`;
+
+                const listBox = document.getElementById("mail-list-box");
+                if (messages.length === 0) {
+                    listBox.innerHTML = `<div class="p-12 text-center text-slate-500 flex flex-col items-center justify-center h-full"><p class="text-sm font-medium">Chưa có thư nào đến</p></div>`;
+                    return;
+                }
+
+                listBox.innerHTML = messages.map(msg => {
+                    const timeStr = new Date(msg.createdAt).toLocaleTimeString('vi-VN', {hour: '2-digit', minute:'2-digit'});
+                    return `
+                        <div onclick="readMailDetail('${msg.id}')" class="p-4 hover:bg-slate-900/60 cursor-pointer transition border-l-4 border-transparent hover:border-cyan-500 bg-slate-950/40 ${!msg.seen ? 'font-bold bg-slate-900/20' : ''}">
+                            <div class="flex justify-between items-start gap-2 mb-1">
+                                <span class="text-xs text-cyan-400 truncate max-w-[140px]">${msg.from.name || msg.from.address}</span>
+                                <span class="text-[10px] text-slate-500 font-mono shrink-0">${timeStr}</span>
+                            </div>
+                            <p class="text-sm text-slate-200 truncate">${msg.subject || '(Không có tiêu đề)'}</p>
+                        </div>`;
+                }).join('');
+            } catch (err) { statusEl.innerHTML = `Lỗi kết nối`; }
+        }
+
+        async function readMailDetail(msgId) {
+            const viewPane = document.getElementById("mail-view-pane");
+            try {
+                viewPane.innerHTML = `<div class="p-6 text-slate-400">Đang tải thư...</div>`;
+                const res = await fetch(`${API_URL}/messages/${msgId}`, { headers: { 'Authorization': `Bearer ${mailToken}` } });
+                const msg = await res.json();
+
+                let contentHTML = msg.html && msg.html.length > 0 ? 
+                    `<iframe src="${URL.createObjectURL(new Blob([msg.html[0]], { type: 'text/html; charset=utf-8' }))}" class="w-full h-[380px] bg-white rounded-lg"></iframe>` : 
+                    `<div class="bg-slate-900 p-4 rounded-xl font-mono text-xs text-slate-300 whitespace-pre-wrap">${msg.text}</div>`;
+
+                viewPane.innerHTML = `
+                    <div class="p-5 space-y-4">
+                        <div class="border-b border-slate-800 pb-4">
+                            <h2 class="text-lg font-bold text-white mb-2">${msg.subject || '(Không có tiêu đề)'}</h2>
+                            <p class="text-xs text-slate-400"><strong>Từ:</strong> <span class="text-cyan-400">${msg.from.address}</span></p>
+                        </div>
+                        <div>${contentHTML}</div>
+                    </div>`;
+                fetchInbox();
+            } catch (err) { viewPane.innerHTML = `Lỗi tải thư`; }
+        }
+
+        function startCountdown() {
+            clockInterval = setInterval(() => {
+                if (countdownSeconds <= 0) {
+                    clearInterval(clockInterval); clearInterval(apiInterval);
+                    document.getElementById("countdown-clock").innerText = "HẾT HẠN";
+                    return;
+                }
+                countdownSeconds--;
+                const mins = Math.floor(countdownSeconds / 60).toString().padStart(2, '0');
+                const secs = (countdownSeconds % 60).toString().padStart(2, '0');
+                document.getElementById("countdown-clock").innerText = `${mins}:${secs}`;
+            }, 1000);
+        }
+
+        function renewTimer() { if (mailToken) countdownSeconds = 600; }
+        function resetMailViewPane() { document.getElementById("mail-view-pane").innerHTML = `<div class="absolute inset-0 flex flex-col items-center justify-center text-slate-500 p-6 text-center"><p class="text-sm">Chưa chọn thư</p></div>`; }
+        function copyMailAddress() { navigator.clipboard.writeText(document.getElementById("email-str").value); }
+
+        window.onload = generateNewMail;
+    </script>
+</body>
+</html>
